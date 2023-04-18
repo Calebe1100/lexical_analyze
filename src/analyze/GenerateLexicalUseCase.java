@@ -104,7 +104,7 @@ public class GenerateLexicalUseCase {
     
     public static boolean isSimilar(String s1, String s2, int maxError) {
         
-        return LevenshteinDistance.getDistance(s1, s2) < maxError;  
+        return LevenshteinDistance.getDistance(s1, s2) <= maxError;  
     }
 
     private ArrayList<String> splitQuery(String query) {
