@@ -1,0 +1,31 @@
+Quais viagens vão ocorrer em <datas>?
+Qual o valor  <comerciável> ?
+Qual a política de custos para <clientes>+?
+<recebimento>+ pagamento por <pagamentos>+ ?
+Quando vai ser a viagem para <destinos>+ 
+Eu prefiro viajar de ônibus.
+Eu quero viajar para capitólio.
+
+<estados> ::= <bahia | minas gerais| espírito santo | rio de janeiro>
+	Ex: Eu quero viajar para capitólio minas gerais.
+
+<destinos> ::= <ba | mg | es | rj >
+	Ex: Eu quero viajar para  vila velha es.
+
+<comerciável> ::= <pacote | transporte | hotel | estadia | diária | viagem>
+	Ex: Eu quero um pacote de viagem.
+
+<datas> ::= <<dia>/<mes>/<ano>>
+	Ex: Quero uma viagem para 03/09/2023.
+
+<pagamentos> = <cartão de crédito | boleto | transferência bancário | via pix | cartão de débito | carnê>
+	Ex: Desejo pagar via transferência bancária.
+<dia> :::= <1 | 2 | 3 | 4 | 5 … | 31>
+<mes> :::= <1 | 2 | 3 | 4 | 5 … | 12>
+<ano> :::= <1900 |1901 | 1902 | 1903 | 1904 … |9999>
+<áreas> ::= <alojamento | aposento | pousada>
+<estações> ::= <outono | inverno | verão |  primavera>
+<descontos> ::= <metade do valor | “XX%” do valor| passagem gratuita>
+<recebimentos> ::= < aceita | recebe | registra | admite>
+<clientes> ::= <crianças | estudantes | idosos | estrangeiros >
+<clima> ::= <ensolarado | chovendo | nevando | ameno | >

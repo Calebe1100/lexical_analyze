@@ -3,6 +3,7 @@ package analyze;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -11,9 +12,9 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import utils.LevenshteinDistance;
+import utils.WordsAttribution;
 
 public class GenerateLexicalUseCase {
-
 
     private List<String> symbolsTable;
     private List<String> allWords;
@@ -21,8 +22,8 @@ public class GenerateLexicalUseCase {
     private List<String> stopWords;
     private Queue<String> queue;
     private String input;
-    
-    public GenerateLexicalUseCase(){
+
+    public GenerateLexicalUseCase() {
         symbolsTable = new ArrayList<String>();
         allWords = new ArrayList<String>();
         keysWords = new ArrayList<String>();
@@ -34,13 +35,40 @@ public class GenerateLexicalUseCase {
         this.input = input;
         this.allWords = splitQuery(input);
 
-        setWordsQueue();
-        setWordKeys();
         setStopWords();
+        setWordKeys();
+        setWordsQueue();
         setSymbolsTable();
 
         allWords.removeAll(this.stopWords);
-        
+
+        identifyQuestion();
+
+    }
+
+    private void identifyQuestion() {
+
+        switch (this.keysWords.get(0)) {
+            case "Quais":
+                
+                break;
+            case "Qual":
+                
+                break;
+            case "Quando":
+
+                break;
+            default:
+                initPossibleReceiptWords(this.keysWords.get(0));
+                break;
+        }
+    }
+
+    private void initPossibleReceiptWords(String word) {
+        String receiptWord = WordsAttribution.generateReceiptWords(this.keysWords);
+        if (receiptWord != null) {
+
+        }
     }
 
     private void setWordsQueue() {
@@ -64,7 +92,7 @@ public class GenerateLexicalUseCase {
 
             String word;
 
-            while((word = br.readLine()) != null) {
+            while ((word = br.readLine()) != null) {
                 this.keysWords.add(word);
             }
 
@@ -73,17 +101,16 @@ public class GenerateLexicalUseCase {
             System.err.println("Arquivo de key_words.txt não encontrado!");
         }
 
-
     }
 
     private void setStopWords() {
         try {
-            FileReader fr = new FileReader("stop_words.txt");
+            FileReader fr = new FileReader("stop_words.txt", StandardCharsets.UTF_8);
             BufferedReader br = new BufferedReader(fr);
 
             String word;
 
-            while((word = br.readLine()) != null) {
+            while ((word = br.readLine()) != null) {
                 this.stopWords.add(word);
             }
 
@@ -91,6 +118,7 @@ public class GenerateLexicalUseCase {
         } catch (IOException e) {
             System.err.println("Arquivo de stop_words.txt não encontrado!");
         }
+
     }
 
     public boolean isAlphabetContains(String word) {
@@ -101,16 +129,15 @@ public class GenerateLexicalUseCase {
 
         return false;
     }
-    
+
     public static boolean isSimilar(String s1, String s2, int maxError) {
-        
-        return LevenshteinDistance.getDistance(s1, s2) <= maxError;  
+
+        return LevenshteinDistance.getDistance(s1, s2) <= maxError;
     }
 
     private ArrayList<String> splitQuery(String query) {
-        ArrayList<String> words =
-                Stream.of(query.toLowerCase().split(" "))
-                        .collect(Collectors.toCollection(ArrayList<String>::new));
+        ArrayList<String> words = Stream.of(query.toLowerCase().split(" "))
+                .collect(Collectors.toCollection(ArrayList<String>::new));
 
         return words;
     }
