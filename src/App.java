@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-import analyze.GenerateLexicalUseCase;
+import useCases.GenerateLexicalUseCase;
 
 public class App {
     public static void main(String[] args) throws Exception {
@@ -10,11 +10,9 @@ public class App {
         String question = "";
         do {
             System.out.println("Olá, como posso te ajudar?");
-            question = "Qual o pacote tem serviço para idosos";
+            question = "Quando vai ser a viagem para cabo frio, quero essa viagem para cabo frio para semana que vem";
 
             useCase.execute(question);
-
-            System.out.println(useCase.isSimilar("teste", "texte", 1));
 
             System.out.println("Você gostaria de realizar outra pergunta? (y/n)");
             comand = scanner.next();

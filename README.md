@@ -1,22 +1,17 @@
-## Getting Started
-
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
-
-## Folder Structure
-
-The workspace contains two folders by default, where:
-
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
-
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
-
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
-
-## Dependency Management
-
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+1) Reconhecer qual pergunta ou atribuição esteja sendo mobilizada pelo usuário
 
 
-Referências:
-https://www.linguateca.pt/chave/stopwords/
+
+2) Caso nenhuma regra seja reconhecida, dê mensagem de erro para o usuário: "Não entendi".
+
+
+
+3) Caso alguma regra seja reconhecida, verifique se todos os elementos (palavras-chaves ou novos identificadores) estão presentes.
+
+
+
+4) Caso exista palavras de menos (ou em excesso) no comando, reconheça a função de cada uma e anote na tabela de símbolos a função reconhecida
+
+
+
+5) Caso falte uma palavra, pergunte ao usuário o que o seu chatbot entendeu que está faltando: "Para qual {<cidade>|<serviço>|<produto>} você deseja saber?"

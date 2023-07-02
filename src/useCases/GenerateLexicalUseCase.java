@@ -1,18 +1,19 @@
-package analyze;
+package useCases;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import utils.LevenshteinDistance;
-import utils.WordsAttribution;
 
 public class GenerateLexicalUseCase {
 
@@ -22,6 +23,7 @@ public class GenerateLexicalUseCase {
     private List<String> stopWords;
     private Queue<String> queue;
     private String input;
+    private Map<String, List<Integer>> invertedFileSymbolsTable;
 
     public GenerateLexicalUseCase() {
         symbolsTable = new ArrayList<String>();
@@ -42,33 +44,8 @@ public class GenerateLexicalUseCase {
 
         allWords.removeAll(this.stopWords);
 
-        identifyQuestion();
+        ProcessKeyWordUseCase exec = new ProcessKeyWordUseCase(queue);
 
-    }
-
-    private void identifyQuestion() {
-
-        switch (this.keysWords.get(0)) {
-            case "Quais":
-                
-                break;
-            case "Qual":
-                
-                break;
-            case "Quando":
-
-                break;
-            default:
-                initPossibleReceiptWords(this.keysWords.get(0));
-                break;
-        }
-    }
-
-    private void initPossibleReceiptWords(String word) {
-        String receiptWord = WordsAttribution.generateReceiptWords(this.keysWords);
-        if (receiptWord != null) {
-
-        }
     }
 
     private void setWordsQueue() {
@@ -78,10 +55,26 @@ public class GenerateLexicalUseCase {
     private void setSymbolsTable() {
         List<String> auxWords = this.allWords;
 
+        this.symbolsTable = auxWords;
+        setSymbolsTableInvertedFile();
+
         auxWords.removeAll(keysWords);
         auxWords.removeAll(stopWords);
 
-        this.symbolsTable = auxWords;
+    }
+
+    private void setSymbolsTableInvertedFile() {
+        Map<Integer, String> symbolsTableHash = new HashMap<>();
+
+        int index = 0;
+        for (String symbol : this.symbolsTable) {
+            symbolsTableHash.put(index, symbol);
+            index++;
+        }
+        this.invertedFileSymbolsTable = GenerateInvertedFileUseCase
+                .getFileInverted(symbolsTableHash, " ");
+
+        GenerateInvertedFileUseCase.saveFileInverted((invertedFileSymbolsTable), "symbolsTable.txt");
     }
 
     private void setWordKeys() {
