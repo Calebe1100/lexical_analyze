@@ -1,4 +1,4 @@
-package useCases;
+package useCases.commom;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,10 +6,11 @@ import java.util.Map;
 import java.util.Queue;
 
 import entities.KeyWordAndStatusObject;
-import enums.KeyWordListType;
-import enums.KeyWordStatus;
+import entities.enums.KeyWordListType;
+import entities.enums.KeyWordStatus;
 import messages.MessageErrors;
-import messages.MessageResponse;
+import useCases.syntactic.GenerateSyntacticUseCase;
+import utils.KeyWordList;
 
 public class ProcessKeyWordUseCase {
 
@@ -18,7 +19,7 @@ public class ProcessKeyWordUseCase {
     private List<String> identifyWordList;
     private List<KeyWordAndStatusObject> expectedWordList;
 
-    private GenerateInvertedFileUseCase internalKeyWordList;
+    private KeyWordList internalKeyWordList;
     private Map listOfWords;
 
     private String messageResponse;
@@ -30,9 +31,11 @@ public class ProcessKeyWordUseCase {
         this.identifyWordList = new ArrayList<String>();
         this.expectedWordList = new ArrayList<KeyWordAndStatusObject>();
         this.inputKeyWords = inputKeyWords;
-        internalKeyWordList = new GenerateInvertedFileUseCase();
+        internalKeyWordList = new KeyWordList();
+
         this.listOfWords = this.internalKeyWordList.getListOfKeyWordLists();
         this.identifyQuestion();
+
     }
 
     protected void identifyQuestion() {
@@ -52,10 +55,12 @@ public class ProcessKeyWordUseCase {
                 if (verifyPossibleReceiptWords(firstWord)) {
                     this.buildRecipient();
                 } else {
-                    this.messageResponse = MessageErrors.NOT_UDESTAND_ERROR;
+                    this.messageResponse = MessageErrors.NOT_UNDERSTAND_ERROR;
+                    System.out.println(messageResponse);
                 }
                 break;
         }
+
     }
 
     private void buildWhich() {
@@ -106,10 +111,8 @@ public class ProcessKeyWordUseCase {
                 cont++;
             }
         }
-        if (this.identifyWordList.size() != this.expectedSizeKeyWords) {
-            this.checkWordMissing();
-        }
-        this.messageResponse = MessageResponse.PROCESSING_MESSAGE;
+
+        GenerateSyntacticUseCase syntacticUseCase = new GenerateSyntacticUseCase(inputKeyWords, keyWordListTypes[0]);
     }
 
     private void setExpecWordList(KeyWordListType keyWordType) {
@@ -118,11 +121,6 @@ public class ProcessKeyWordUseCase {
                 word.checked = true;
             }
         });
-
-    }
-
-    private void checkWordMissing() {
-        this.messageResponse = "Para qual .... você deseja?";
 
     }
 
@@ -147,8 +145,13 @@ public class ProcessKeyWordUseCase {
     }
 
     private boolean verifyPossibleReceiptWords(String word) {
-        List<String> values = (List<String>) this.listOfWords.get(KeyWordListType.RECEIPT);
-        return values.contains(word);
+        try {
+
+            List<String> values = (List<String>) this.listOfWords.get(KeyWordListType.RECEIPT);
+            return values.contains(word);
+        } catch (Exception e) {
+            return false;
+        }
     }
 
 }

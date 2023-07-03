@@ -1,4 +1,4 @@
-package useCases;
+package useCases.commom;
 
 import java.util.Queue;
 

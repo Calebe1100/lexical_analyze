@@ -204,7 +204,6 @@ pode
 podem
 poder
 polícia
-política
 pontos
 por
 porque
@@ -225,9 +224,7 @@ projeto
 próprio
 pt
 público
-qual
 qualquer
-quando
 quanto
 quase
 quatro
@@ -241,6 +238,7 @@ região
 relação
 reportagem
 rio
+olá,
 são
 saúde
 se
@@ -290,7 +288,6 @@ um
 uma
 us
 vai
-valor
 vão
 vem
 vez

@@ -1,4 +1,4 @@
-package useCases;
+package useCases.commom;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import utils.answers.Answers;
 
 public class GenerateInvertedFileUseCase {
 
@@ -20,30 +22,37 @@ public class GenerateInvertedFileUseCase {
                 this.invertFile = invertFile;
         }
 
-        GenerateInvertedFileUseCase() {
-                Map<Integer, String> answers = new HashMap<>();
-                answers.put(1, "Esta é uma resposta de exemplo");
-                answers.put(2, "Outra resposta interessante");
-                answers.put(3, "Uma resposta diferente");
+        public GenerateInvertedFileUseCase() {
+
+                Map<Integer, List<String>> answers = new HashMap<>();
+                answers.put(1, Answers.ONE);
+                answers.put(2, Answers.TWO);
+                answers.put(3, Answers.THREE);
+                answers.put(4, Answers.FOUR);
+                answers.put(5, Answers.FIVE);
+                answers.put(6, Answers.SIX);
+                answers.put(7, Answers.SEVEN);
 
                 this.invertFile = getFileInverted(answers, " ");
+                saveFileInverted(invertFile, "invertedFile.txt");
         }
 
-        static Map<String, List<Integer>> getFileInverted(Map<Integer, String> answers, String separator) {
+        public static Map<String, List<Integer>> getFileInverted(Map<Integer, List<String>> answers, String separator) {
                 Map<String, List<Integer>> invertedFile = new HashMap<>();
 
-                for (Map.Entry<Integer, String> entry : answers.entrySet()) {
+                for (Map.Entry<Integer, List<String>> entry : answers.entrySet()) {
                         int idAnswer = entry.getKey();
-                        String answer = entry.getValue();
-                        String[] words = answer.split(separator);
-
-                        for (String word : words) {
-                                if (invertedFile.containsKey(word)) {
-                                        invertedFile.get(word).add(idAnswer);
-                                } else {
-                                        List<Integer> list = new ArrayList<>();
-                                        list.add(idAnswer);
-                                        invertedFile.put(word, list);
+                        List<String> answersSelected = entry.getValue();
+                        for (String answer : answersSelected) {
+                                String[] words = answer.split(separator);
+                                for (String word : words) {
+                                        if (invertedFile.containsKey(word)) {
+                                                invertedFile.get(word).add(idAnswer);
+                                        } else {
+                                                List<Integer> list = new ArrayList<>();
+                                                list.add(idAnswer);
+                                                invertedFile.put(word, list);
+                                        }
                                 }
                         }
                 }

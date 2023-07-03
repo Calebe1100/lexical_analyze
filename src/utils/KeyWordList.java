@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import entities.KeyWordAndStatusObject;
-import enums.KeyWordListType;
-import enums.KeyWordStatus;
+import entities.enums.KeyWordListType;
+import entities.enums.KeyWordStatus;
 
 public class KeyWordList {
 

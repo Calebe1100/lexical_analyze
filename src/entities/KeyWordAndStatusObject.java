@@ -2,8 +2,8 @@ package entities;
 
 import java.util.List;
 
-import enums.KeyWordListType;
-import enums.KeyWordStatus;
+import entities.enums.KeyWordListType;
+import entities.enums.KeyWordStatus;
 
 public class KeyWordAndStatusObject {
     public List<String> words;

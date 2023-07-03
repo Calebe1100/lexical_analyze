@@ -1,11 +1,10 @@
-package useCases;
+package useCases.lexical;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +12,7 @@ import java.util.Queue;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import useCases.commom.ProcessKeyWordUseCase;
 import utils.LevenshteinDistance;
 
 public class GenerateLexicalUseCase {
@@ -44,8 +44,6 @@ public class GenerateLexicalUseCase {
 
         allWords.removeAll(this.stopWords);
 
-        ProcessKeyWordUseCase exec = new ProcessKeyWordUseCase(queue);
-
     }
 
     private void setWordsQueue() {
@@ -56,25 +54,13 @@ public class GenerateLexicalUseCase {
         List<String> auxWords = this.allWords;
 
         this.symbolsTable = auxWords;
-        setSymbolsTableInvertedFile();
 
-        auxWords.removeAll(keysWords);
         auxWords.removeAll(stopWords);
 
-    }
+        Queue<String> queue = new LinkedList<>(auxWords);
+        ProcessKeyWordUseCase exec = new ProcessKeyWordUseCase(queue);
 
-    private void setSymbolsTableInvertedFile() {
-        Map<Integer, String> symbolsTableHash = new HashMap<>();
-
-        int index = 0;
-        for (String symbol : this.symbolsTable) {
-            symbolsTableHash.put(index, symbol);
-            index++;
-        }
-        this.invertedFileSymbolsTable = GenerateInvertedFileUseCase
-                .getFileInverted(symbolsTableHash, " ");
-
-        GenerateInvertedFileUseCase.saveFileInverted((invertedFileSymbolsTable), "symbolsTable.txt");
+        auxWords.removeAll(keysWords);
     }
 
     private void setWordKeys() {
